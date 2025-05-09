@@ -34,9 +34,7 @@ const Index = () => {
           <h1 className="text-5xl font-bold tracking-tight text-gradient">
             Finix AI
           </h1>
-          <p className="text-xl mt-4 text-gray-300">
-            Secure, fast, and beautiful authentication
-          </p>
+          <p className="text-xl mt-4 text-gray-300">Your Daily AI Companion</p>
         </div>
 
         <div className="flex justify-center mt-8">
