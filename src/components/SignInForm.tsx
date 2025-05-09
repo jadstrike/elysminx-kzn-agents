@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/use-toast";
-import { Google } from "lucide-react";
+import { CircleUser } from "lucide-react";
 
 const SignInForm = () => {
   const { toast } = useToast();
@@ -141,7 +141,7 @@ const SignInForm = () => {
             onClick={handleGoogleSignIn}
             disabled={isLoading}
           >
-            <Google className="h-5 w-5" />
+            <CircleUser className="h-5 w-5" />
             Sign in with Google
           </Button>
         </CardContent>
