@@ -1,9 +1,8 @@
-
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Session, User } from '@supabase/supabase-js';
-import { useNavigate } from 'react-router-dom';
-import { supabase } from '@/integrations/supabase/client';
-import { useToast } from '@/components/ui/use-toast';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { Session, User } from "@supabase/supabase-js";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/components/ui/use-toast";
 
 interface AuthContextType {
   session: Session | null;
@@ -25,7 +24,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // Clean up any stale auth state
   const cleanupAuthState = () => {
     Object.keys(localStorage).forEach((key) => {
-      if (key.startsWith('supabase.auth.') || key.includes('sb-')) {
+      if (key.startsWith("supabase.auth.") || key.includes("sb-")) {
         localStorage.removeItem(key);
       }
     });
@@ -33,26 +32,26 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     // Set up auth state listener FIRST
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, currentSession) => {
-        console.log('Auth state changed:', event);
-        setSession(currentSession);
-        setUser(currentSession?.user ?? null);
-        
-        if (event === 'SIGNED_IN') {
-          toast({
-            title: 'Signed in successfully',
-            description: `Welcome ${currentSession?.user.email}`,
-          });
-          navigate('/');
-        } else if (event === 'SIGNED_OUT') {
-          toast({
-            title: 'Signed out successfully',
-            description: 'You have been signed out',
-          });
-        }
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, currentSession) => {
+      console.log("Auth state changed:", event);
+      setSession(currentSession);
+      setUser(currentSession?.user ?? null);
+
+      if (event === "SIGNED_IN") {
+        toast({
+          title: "Signed in successfully",
+          description: `Welcome ${currentSession?.user.email}`,
+        });
+        navigate("/");
+      } else if (event === "SIGNED_OUT") {
+        toast({
+          title: "Signed out successfully",
+          description: "You have been signed out",
+        });
       }
-    );
+    });
 
     // THEN check for existing session
     supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
@@ -71,27 +70,27 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setLoading(true);
       // Clean up any stale auth state first
       cleanupAuthState();
-      
+
       // Try global sign out if there was a session
       try {
         if (session) {
-          await supabase.auth.signOut({ scope: 'global' });
+          await supabase.auth.signOut({ scope: "global" });
         }
       } catch (e) {
-        console.error('Error during sign out before Google sign in:', e);
+        console.error("Error during sign out before Google sign in:", e);
         // Continue even if this fails
       }
-      
+
       const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
+        provider: "google",
         options: {
-          redirectTo: window.location.origin
-        }
+          redirectTo: "https://finix-agent.vercel.app/",
+        },
       });
-      
+
       if (error) throw error;
     } catch (error) {
-      console.error('Error signing in with Google:', error);
+      console.error("Error signing in with Google:", error);
       toast({
         variant: "destructive",
         title: "Error signing in",
@@ -108,11 +107,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       // Clean up auth state
       cleanupAuthState();
       // Attempt global sign out
-      await supabase.auth.signOut({ scope: 'global' });
+      await supabase.auth.signOut({ scope: "global" });
       // Force page reload to clear any state
-      window.location.href = '/';
+      window.location.href = "/";
     } catch (error) {
-      console.error('Error signing out:', error);
+      console.error("Error signing out:", error);
       toast({
         variant: "destructive",
         title: "Error signing out",
@@ -137,7 +136,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
