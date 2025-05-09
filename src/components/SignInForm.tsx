@@ -1,49 +1,13 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { CircleUser } from "lucide-react";
 
 const SignInForm = () => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsLoading(true);
-    
-    try {
-      // This would be where you'd implement Supabase auth
-      console.log("Sign in with:", formData);
-      
-      toast({
-        title: "Sign in attempted",
-        description: "This is a demo. Integration with Supabase would go here.",
-      });
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Error signing in",
-        description: "Please check your credentials and try again.",
-      });
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const handleGoogleSignIn = () => {
     setIsLoading(true);
@@ -72,87 +36,26 @@ const SignInForm = () => {
     <div className="w-full flex justify-center items-center animate-fade-in">
       <Card className="w-full max-w-md bg-black/40 glass-morphism border border-white/10">
         <CardHeader>
-          <CardTitle className="text-3xl font-bold text-gradient">Welcome Back</CardTitle>
+          <CardTitle className="text-3xl font-bold text-gradient">Welcome</CardTitle>
           <CardDescription className="text-gray-400">
-            Sign in to your account to continue
+            Sign in to continue
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-medium text-gray-300">
-                Email
-              </Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="name@example.com"
-                required
-                value={formData.email}
-                onChange={handleChange}
-                className="bg-white/5 border-white/10 text-white placeholder:text-gray-500"
-                disabled={isLoading}
-              />
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="password" className="text-sm font-medium text-gray-300">
-                  Password
-                </Label>
-                <a
-                  href="#"
-                  className="text-xs text-primary hover:text-primary/90 transition-colors"
-                >
-                  Forgot password?
-                </a>
-              </div>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                placeholder="••••••••"
-                required
-                value={formData.password}
-                onChange={handleChange}
-                className="bg-white/5 border-white/10 text-white placeholder:text-gray-500"
-                disabled={isLoading}
-              />
-            </div>
-            <Button
-              type="submit"
-              className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-medium transition-all duration-300"
-              disabled={isLoading}
-            >
-              {isLoading ? "Signing in..." : "Sign In"}
-            </Button>
-          </form>
-
-          <div className="flex items-center my-6">
-            <Separator className="flex-1 bg-white/10" />
-            <span className="mx-4 text-xs text-gray-400">OR</span>
-            <Separator className="flex-1 bg-white/10" />
-          </div>
-
+        <CardContent className="flex flex-col items-center">
           <Button
             type="button"
-            variant="outline"
-            className="w-full border-white/10 bg-white/5 hover:bg-white/10 text-white flex items-center gap-2"
+            className="w-full relative cursor-comic transform hover:scale-105 transition-all duration-300 overflow-hidden bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold py-4 px-6 rounded-xl shadow-[0_8px_0px_0px_#4c1d95] hover:shadow-[0_4px_0px_0px_#4c1d95] hover:translate-y-1 border-4 border-white/20"
             onClick={handleGoogleSignIn}
             disabled={isLoading}
           >
-            <CircleUser className="h-5 w-5" />
-            Sign in with Google
+            <div className="absolute -left-10 -top-10 bg-white/20 w-20 h-20 rounded-full blur-xl animate-pulse"></div>
+            <div className="absolute -right-10 -bottom-10 bg-purple-300/20 w-20 h-20 rounded-full blur-xl animate-pulse"></div>
+            <span className="flex items-center justify-center gap-3 relative z-10">
+              <CircleUser className="h-6 w-6" />
+              {isLoading ? "Signing in..." : "Sign in with Google"}
+            </span>
           </Button>
         </CardContent>
-        <CardFooter className="flex justify-center">
-          <p className="text-sm text-gray-400">
-            Don&apos;t have an account?{" "}
-            <a href="#" className="text-primary hover:text-primary/90 transition-colors">
-              Sign up
-            </a>
-          </p>
-        </CardFooter>
       </Card>
     </div>
   );
