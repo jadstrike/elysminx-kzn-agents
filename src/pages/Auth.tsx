@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -9,7 +8,7 @@ const Auth = () => {
   const { user } = useAuth();
 
   useEffect(() => {
-    document.title = "Sign In - Stellar Login";
+    document.title = "Sign In - Finix Content AI";
   }, []);
 
   if (user) {
@@ -22,7 +21,7 @@ const Auth = () => {
       
       <div className="w-full max-w-md mb-8 text-center animate-fade-in">
         <div className="mb-2">
-          <h1 className="text-4xl font-bold tracking-tight text-gradient">Stellar Login</h1>
+          <h1 className="text-4xl font-bold tracking-tight text-gradient">Finix Content AI</h1>
         </div>
         <p className="text-gray-400 text-sm">Secure, fast, and beautiful authentication</p>
       </div>
@@ -30,7 +29,7 @@ const Auth = () => {
       <SignInForm />
       
       <div className="mt-8 text-center text-xs text-gray-500 animate-fade-in">
-        <p>© 2025 Stellar Login. All rights reserved.</p>
+        <p>© 2025 Finix Content AI. All rights reserved.</p>
       </div>
     </div>
   );
