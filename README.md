@@ -1,73 +1,79 @@
-# Welcome to your Lovable project
+# Finix AI Agent
 
-## Project info
+A modern authentication and dashboard application powered by Supabase, Google OAuth, React, Vite, shadcn-ui, and Tailwind CSS.
 
-**URL**: https://lovable.dev/projects/2d68cfce-188c-416c-b7ca-80a11fdf0385
+## Features
 
-## How can I edit this code?
+- **Google OAuth Authentication** via Supabase
+- **User Dashboard** with profile and session info
+- **Responsive UI** with shadcn-ui and Tailwind CSS
+- **Beautiful gradients and glassmorphism effects**
+- **TypeScript** for type safety
 
-There are several ways of editing your application.
+## Getting Started
 
-**Use Lovable**
+### Prerequisites
+- [Node.js](https://nodejs.org/) (v18 or newer recommended)
+- [npm](https://www.npmjs.com/) or [bun](https://bun.sh/) or [yarn](https://yarnpkg.com/)
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/2d68cfce-188c-416c-b7ca-80a11fdf0385) and start prompting.
+### Setup
 
-Changes made via Lovable will be committed automatically to this repo.
+1. **Clone the repository:**
+   ```sh
+   git clone <YOUR_GIT_URL>
+   cd <YOUR_PROJECT_NAME>
+   ```
+2. **Install dependencies:**
+   ```sh
+   npm install
+   # or
+   bun install
+   # or
+   yarn install
+   ```
+3. **Configure Supabase:**
+   - Update your Supabase credentials in `src/integrations/supabase/client.ts` if needed.
+   - Set up Google OAuth in your [Supabase project](https://app.supabase.com/project/_/auth/providers) and [Google Cloud Console](https://console.cloud.google.com/apis/credentials).
+   - Make sure your redirect URIs are correct (see below).
 
-**Use your preferred IDE**
+4. **Start the development server:**
+   ```sh
+   npm run dev
+   # or
+   bun run dev
+   # or
+   yarn dev
+   ```
+   The app will be available at [http://localhost:5173](http://localhost:5173).
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Google OAuth Redirect URIs
+- For local development: `http://localhost:5173/`
+- For production: `https://your-production-domain.com/`
+- Also add: `https://<your-supabase-project-ref>.supabase.co/auth/v1/callback`
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Add these in your Google Cloud Console OAuth credentials.
 
-Follow these steps:
+## Project Structure
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+- `src/pages/Index.tsx` – Home page
+- `src/pages/Auth.tsx` – Authentication page
+- `src/pages/Dashboard.tsx` – User dashboard (protected)
+- `src/contexts/AuthContext.tsx` – Auth logic and context
+- `src/components/SignInForm.tsx` – Google sign-in button and form
+- `src/integrations/supabase/` – Supabase client and types
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## Tech Stack
+- [React](https://react.dev/)
+- [Vite](https://vitejs.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Supabase](https://supabase.com/)
+- [shadcn/ui](https://ui.shadcn.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
 
-# Step 3: Install the necessary dependencies.
-npm i
+## Deployment
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+You can deploy this app to any static hosting provider (Vercel, Netlify, etc.). Make sure to set the correct environment variables and redirect URIs for OAuth in production.
 
-**Edit a file directly in GitHub**
+## License
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/2d68cfce-188c-416c-b7ca-80a11fdf0385) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+MIT
