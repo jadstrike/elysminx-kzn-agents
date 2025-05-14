@@ -5,6 +5,8 @@ import BackgroundGradient from "@/components/BackgroundGradient";
 import { useAuth } from "@/contexts/AuthContext";
 import { ArrowRight, CircleUser } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { encryptData, decryptData } from "@/lib/encryption";
+import type { Profile } from "@/integrations/supabase/types";
 import {
   Tooltip,
   TooltipTrigger,
@@ -30,7 +32,7 @@ const Index = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = "Finix AI";
+    document.title = "Elysminx Agent";
   }, []);
 
   // Autofocus Gemini input when prompt appears
@@ -42,37 +44,43 @@ const Index = () => {
 
   // Check if user needs to provide Gemini API key or model
   useEffect(() => {
-    if (user) {
+    const loadProfile = async () => {
+      if (!user) return;
       setCheckingGemini(true);
-      supabase
-        .from("profiles")
-        .select("gemini_api_key, gemini_model, use_company_key")
-        .eq("id", user.id)
-        .single()
-        .then(({ data }) => {
-          if (!data || !data.gemini_api_key) {
-            setShowGeminiPrompt(true);
-            setGeminiKey("");
-            setSelectedModel("");
-          } else {
-            setGeminiKey(data.gemini_api_key);
-            setShowGeminiPrompt(true);
-            setSelectedModel(data.gemini_model || "");
-            // If model is also set, skip prompt and go to dashboard
-            if (data.gemini_model) {
-              setShowGeminiPrompt(false);
-              navigate("/dashboard");
-            }
+
+      try {
+        const { data, error } = (await supabase
+          .from("profiles")
+          .select(
+            "encrypted_gemini_key, gemini_key_iv, gemini_key_auth_tag, use_company_key, gemini_model"
+          )
+          .eq("id", user.id)
+          .single()) as { data: Profile | null; error: any };
+
+        if (error) throw error;
+
+        if (data) {
+          setUseCompanyKey(data.use_company_key);
+          setSelectedModel(data.gemini_model || "");
+
+          // Decrypt the API key if it exists
+          if (data.encrypted_gemini_key && data.gemini_key_iv) {
+            const decryptedKey = await decryptData(
+              data.encrypted_gemini_key,
+              data.gemini_key_iv
+            );
+            setGeminiKey(decryptedKey);
           }
-          setUseCompanyKey(
-            typeof data?.use_company_key === "boolean"
-              ? data.use_company_key
-              : null
-          );
-          setCheckingGemini(false);
-        });
-    }
-  }, [user, navigate]);
+        }
+      } catch (err) {
+        console.error("Error loading profile:", err);
+      } finally {
+        setCheckingGemini(false);
+      }
+    };
+
+    loadProfile();
+  }, [user]);
 
   // Fetch remaining tokens if company key is selected
   useEffect(() => {
@@ -99,18 +107,27 @@ const Index = () => {
     e.preventDefault();
     setGeminiError("");
     setSaving(true);
-    const { error } = await supabase
-      .from("profiles")
-      .update({ gemini_api_key: geminiKey })
-      .eq("id", user.id);
-    if (error) {
-      setGeminiError("Failed to save API key. Please try again later.");
+    try {
+      // Encrypt the API key
+      const { encryptedData, iv } = await encryptData(geminiKey);
+
+      const { error } = await supabase.from("profiles").upsert({
+        id: user.id,
+        encrypted_gemini_key: encryptedData,
+        gemini_key_iv: iv,
+      });
+
+      if (error) {
+        setGeminiError("Failed to save API key. Please try again later.");
+        setSaving(false);
+        return;
+      }
       setSaving(false);
-      return;
+      setEditingKey(false);
+    } catch (err) {
+      setGeminiError("Unexpected error. Please try again later.");
+      setSaving(false);
     }
-    setSaving(false);
-    setGeminiError("");
-    setSelectedModel(""); // Prompt for model selection
   };
 
   const handleModelSelect = async (model: string) => {
@@ -137,10 +154,10 @@ const Index = () => {
       <div className="w-full max-w-3xl mb-8 text-center animate-fade-in">
         <div className="mb-6">
           <h1 className="text-5xl font-bold tracking-tight text-gradient">
-            Finix AI
+            Elysminx Agent
           </h1>
           <p className="text-xl mt-4 text-gray-300">
-            Secure, fast, and beautiful authentication
+            Faster Content, Faster Job Apply, MCPs
           </p>
         </div>
 
@@ -178,7 +195,7 @@ const Index = () => {
                 aria-live="polite"
               >
                 <label className="text-white text-lg font-semibold mb-2">
-                  Choose how you want to use Finix AI
+                  Choose how you want to use Elysminx Agent
                 </label>
                 <div className="flex flex-col gap-3 w-full">
                   <Button
@@ -194,7 +211,7 @@ const Index = () => {
                     onClick={() => {}}
                     disabled
                   >
-                    Use Finix AI's free company key (coming soon)
+                    Use Elysminx Agent's free company key (coming soon)
                   </Button>
                 </div>
                 {useCompanyKey === false && (!geminiKey || editingKey) && (
@@ -296,9 +313,29 @@ const Index = () => {
                       <label className="text-white text-lg font-semibold mb-2">
                         Select your preferred Gemini model
                       </label>
+                      <div className="w-full flex justify-center">
+                        <div className="flex items-center gap-2 bg-yellow-100/90 border border-yellow-400 text-yellow-900 rounded-md px-4 py-2 mb-3 text-sm font-medium shadow-sm animate-fade-in">
+                          <svg
+                            className="h-4 w-4 text-yellow-500"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z"
+                            />
+                          </svg>
+                          Gemini 2.5 Pro has a daily usage limit. If the limit
+                          is exceeded, use Gemini 2.0 Flash or 1.5 Pro.
+                        </div>
+                      </div>
                       <span className="text-gray-400 text-sm mb-2 text-center">
-                        Gemini 2.5 Pro has a daily usage limit. If the limit is
-                        exceeded, use Gemini 2.0 Flash or 1.5 Pro.
+                        Choose the model that best fits your needs.{" "}
+                        <b>Gemini 2.0 Flash Lite</b> is best for free,
+                        high-volume use.
                       </span>
                       <div className="flex flex-col md:flex-row gap-3 w-full justify-center">
                         <Button
@@ -312,30 +349,45 @@ const Index = () => {
                           disabled={modelSaving}
                         >
                           Gemini 2.5 Pro
+                          <span className="block text-xs text-white/60 font-normal mt-1">
+                            Most capable for complex reasoning, coding, and
+                            advanced tasks. May require billing.
+                          </span>
                         </Button>
                         <Button
                           variant={
-                            selectedModel === "gemini-2.0-flash"
+                            selectedModel === "gemini-2.5-flash"
                               ? "secondary"
                               : "outline"
                           }
                           className="flex-1 min-w-[140px]"
-                          onClick={() => setSelectedModel("gemini-2.0-flash")}
+                          onClick={() => setSelectedModel("gemini-2.5-flash")}
                           disabled={modelSaving}
                         >
-                          Gemini 2.0 Flash
+                          Gemini 2.5 Flash
+                          <span className="block text-xs text-white/60 font-normal mt-1">
+                            Fastest Gemini model, great for chat, summarization,
+                            and rapid responses. Generous free tier.
+                          </span>
                         </Button>
                         <Button
                           variant={
-                            selectedModel === "gemini-1.5-pro"
+                            selectedModel === "gemini-2.0-flash-lite"
                               ? "secondary"
                               : "outline"
                           }
                           className="flex-1 min-w-[140px]"
-                          onClick={() => setSelectedModel("gemini-1.5-pro")}
+                          onClick={() =>
+                            setSelectedModel("gemini-2.0-flash-lite")
+                          }
                           disabled={modelSaving}
                         >
-                          Gemini 1.5 Pro
+                          Gemini 2.0 Flash Lite
+                          <span className="block text-xs text-white/60 font-normal mt-1">
+                            Lightweight, cost-effective, and very fast. Best for
+                            simple, high-volume, or low-latency tasks. Most
+                            permissive free tier.
+                          </span>
                         </Button>
                       </div>
                       {modelError && (
@@ -349,7 +401,7 @@ const Index = () => {
                 {useCompanyKey === true && (
                   <div className="w-full text-center text-white mt-4">
                     <p>
-                      You are using Finix AI's free company key.
+                      You are using Elysminx Agent's free company key.
                       <br />
                       <b>
                         {remainingTokens !== null ? remainingTokens : "..."}
@@ -388,7 +440,7 @@ const Index = () => {
       </div>
 
       <div className="mt-8 text-center text-xs text-gray-500 animate-fade-in">
-        <p>© 2025 Finix AI. All rights reserved.</p>
+        <p>© 2025 Elysminx Agent. All rights reserved.</p>
       </div>
     </div>
   );

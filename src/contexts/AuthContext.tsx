@@ -39,12 +39,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setSession(currentSession);
       setUser(currentSession?.user ?? null);
 
-      if (event === "SIGNED_IN") {
+      if (event === "SIGNED_IN" && !session) {
         toast({
           title: "Signed in successfully",
           description: `Welcome ${currentSession?.user.email}`,
         });
-        navigate("/");
+        navigate("/dashboard");
       } else if (event === "SIGNED_OUT") {
         toast({
           title: "Signed out successfully",

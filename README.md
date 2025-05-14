@@ -1,4 +1,4 @@
-# Finix AI Agent
+# Elysminx Agent
 
 A modern authentication and dashboard app powered by Supabase, Google OAuth, React, Vite, shadcn-ui, and Tailwind CSS.
 
@@ -20,10 +20,12 @@ A modern authentication and dashboard app powered by Supabase, Google OAuth, Rea
 ### Setup
 
 1. **Clone the repo:**
-   ```sh
-   git clone <YOUR_GIT_URL>
-   cd <YOUR_PROJECT_NAME>
-   ```
+
+```sh
+git clone <YOUR_GIT_URL>
+cd <YOUR_PROJECT_NAME>
+```
+
 2. **Install dependencies:**
    ```sh
    npm install

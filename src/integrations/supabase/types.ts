@@ -165,3 +165,16 @@ export const Constants = {
     Enums: {},
   },
 } as const;
+
+export type Profile = {
+  id: string;
+  encrypted_gemini_key?: string;
+  gemini_key_iv?: string;
+  gemini_key_auth_tag?: string;
+  use_company_key?: boolean;
+  gemini_model?: string;
+  company_gemini_tokens_used?: number;
+  company_openai_tokens_used?: number;
+  created_at?: string;
+  updated_at?: string;
+};
