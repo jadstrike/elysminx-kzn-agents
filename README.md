@@ -54,42 +54,46 @@ GOOGLE_REFRESH_TOKEN=your-google-refresh-token
 SMITHERY_API_KEY=your-smithery-api-key
 PORT=3001
 ```
+---
 
-🔧 Google Sign-In Setup
+### 🔧 Google Sign-In Setup
+
 To enable Google Sign-In, follow these steps:
 
-Go to Google Cloud Console.
+1. Go to [Google Cloud Console](https://console.cloud.google.com/).
+2. Enable the following APIs:
+   - **OAuth 2.0 Client IDs**
+   - **People API**
+3. Navigate to **OAuth consent screen**:
+   - Choose "External"
+   - Fill in the required application information (e.g., App name, Support email)
+   - Add test users if needed
+4. Go to **Credentials** and click **"Create Credentials" → "OAuth 2.0 Client ID"**:
+   - Choose "Web application"
+   - Set the **Authorized redirect URIs** (e.g., `http://localhost:3001`, or your domain)
+   - Copy the generated **Client ID** and **Client Secret**
+5. Go to the Supabase Project Dashboard:
+   - Navigate to **Authentication → Providers → Google**
+   - Paste the **Client ID** and **Client Secret**
+6. Save the changes. Supabase auth is now linked with Google OAuth.
+7. Make sure the `.env` file includes the correct values:
 
-Enable the OAuth 2.0 and People API.
 
-Navigate to OAuth Consent Screen:
 
-Fill in the required fields (e.g., app name, email, etc.).
-
-Set scopes and test users as needed.
-
-Create OAuth 2.0 credentials (Client ID and Client Secret).
-
-Add these credentials to Supabase:
-
-In Supabase's authentication provider settings, configure Gmail login with your Client ID and Client Secret.
-
-Add the correct redirect URLs for both your local dev environment and deployed domain (e.g., http://localhost:3001).
 
 🛠 Requirements
 Node.js installed
 
 Bun (optional — or use npm)
 
-🏃 Run the Application
-bash
-Copy
-Edit
+### 🏃 Run the Application
+
+```bash
 git clone https://github.com/your-repo-link
 cd your-repo-folder
 bun install          # or npm install
 bun run dev          # or npm run dev
-Open your browser at http://localhost:3001 to access the dashboard.
+```
 
 📬 Contributing & Feedback
 Found a bug? Got suggestions? Want to improve this README?
