@@ -53,3 +53,49 @@ GOOGLE_CLIENT_SECRET=your-google-client-secret
 GOOGLE_REFRESH_TOKEN=your-google-refresh-token
 SMITHERY_API_KEY=your-smithery-api-key
 PORT=3001
+```
+
+🔧 Google Sign-In Setup
+To enable Google Sign-In, follow these steps:
+
+Go to Google Cloud Console.
+
+Enable the OAuth 2.0 and People API.
+
+Navigate to OAuth Consent Screen:
+
+Fill in the required fields (e.g., app name, email, etc.).
+
+Set scopes and test users as needed.
+
+Create OAuth 2.0 credentials (Client ID and Client Secret).
+
+Add these credentials to Supabase:
+
+In Supabase's authentication provider settings, configure Gmail login with your Client ID and Client Secret.
+
+Add the correct redirect URLs for both your local dev environment and deployed domain (e.g., http://localhost:3001).
+
+🛠 Requirements
+Node.js installed
+
+Bun (optional — or use npm)
+
+🏃 Run the Application
+bash
+Copy
+Edit
+git clone https://github.com/your-repo-link
+cd your-repo-folder
+bun install          # or npm install
+bun run dev          # or npm run dev
+Open your browser at http://localhost:3001 to access the dashboard.
+
+📬 Contributing & Feedback
+Found a bug? Got suggestions? Want to improve this README?
+Feel free to open a pull request — I'm always looking to improve and learn from community feedback.
+
+Thanks for visiting! 🚀
+
+
+
