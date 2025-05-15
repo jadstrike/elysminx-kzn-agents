@@ -1,108 +1,55 @@
-# Elysminx Agent
+# AI Agent Project – Main Dashboard Centre
 
-A modern authentication and dashboard app powered by Supabase, Google OAuth, React, Vite, shadcn-ui, and Tailwind CSS.
+This repository showcases the work I submitted for an **AI Agent Project Competition**. Throughout the competition, I explored several key areas and built practical tools using modern AI agent frameworks like [Multi-Agent Control Plane (MCP)](https://smitheryai.notion.site/MCP-Quickstart-2772e76a7583499db3e3a77f6cc7fa14).
 
-## Features
+---
 
-- Google OAuth authentication via Supabase
-- User dashboard with bento-style cards
-- Gemini API key prompt and storage
-- Responsive UI with shadcn-ui and Tailwind CSS
-- TypeScript for type safety
+## 🧠 What I Explored
 
-## Getting Started
+### 1. UK Market Content Creation Tool
+I developed a content creator tool tailored for the **UK market** using **Google's Gemini model**.  
+> 🎯 Goal: Help small businesses set up and generate content easily and freely.
 
-### Prerequisites
+---
 
-- Node.js v18+
-- npm, bun, or yarn
+### 2. Local MCP Server + Client Setup
+I learned how to build and connect a local MCP server and client.
 
-### Setup
+📂 GitHub Repo: [local-mcp](https://github.com/jadstrike/local-mcp)
 
-1. **Clone the repo:**
+---
 
-```sh
-git clone <YOUR_GIT_URL>
-cd <YOUR_PROJECT_NAME>
-```
+### 3. LinkedIn Job Search & Apply Automation
+I set up **job search and application automation** on [n8n](https://n8n.io/) using **MCP agents**.  
+> ⛔️ This feature is not yet available on the main dashboard due to time needed to fix bugs.  
 
-2. **Install dependencies:**
-   ```sh
-   npm install
-   # or
-   bun install
-   # or
-   yarn install
-   ```
-3. **Configure Supabase:**
+---
 
-   - Update Supabase credentials in `src/integrations/supabase/client.ts` if needed.
-   - Set up Google OAuth in your [Supabase project](https://app.supabase.com/project/_/auth/providers) and [Google Cloud Console](https://console.cloud.google.com/apis/credentials).
-   - Add your local and production URLs to both Google and Supabase Auth settings:
-     - Local: `http://localhost:5173/`
-     - Production: `https://your-production-domain.com/`
-     - Supabase callback: `https://<your-supabase-project-ref>.supabase.co/auth/v1/callback`
+### 4. Multi-Tool RAG Agent with Human-in-the-Loop
+I built an agent capable of:
+- Using **RAG** (Retrieval-Augmented Generation)
+- Generating **structured output**
+- Including **human-in-the-loop** steps (e.g., asking for "yes" or "no" approval)
+- Handling **memory management**
 
-4. **Start the dev server:**
-   ```sh
-   npm run dev
-   # or
-   bun run dev
-   # or
-   yarn dev
-   ```
-   App runs at [http://localhost:5173](http://localhost:5173).
+📂 GitHub Repo: [rag-agent](https://github.com/jadstrike/rag-agent)
 
-## Project Structure
+---
 
-- `src/pages/Index.tsx` – Landing page (sign-in, Gemini key prompt)
-- `src/pages/Dashboard.tsx` – User dashboard (bento cards)
-- `src/contexts/AuthContext.tsx` – Auth logic/context
-- `src/integrations/supabase/` – Supabase client/types
-- `src/components/` – UI components
+## 🚀 How to Run the Main Dashboard Centre
 
-## Gemini API Key Flow
+This dashboard integrates all the features mentioned above.
 
-- After Google sign-in, users are prompted for their Gemini API key.
-- Key is validated and stored in the `profiles` table.
-- Button/tooltip helps users get their key from Google AI Studio.
+### 🔐 Environment Variables
 
-## Backend Proxy Setup (for Company API Keys)
+Create a `.env` file and include the following:
 
-To securely use company API keys and track usage, run a backend proxy server:
-
-1. Create a `.env` file in your project root (never commit this file):
-   ```env
-   COMPANY_OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxx
-   SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
-   SUPABASE_URL=https://your-project.supabase.co
-   GOOGLE_CLIENT_ID=your-google-client-id
-   GOOGLE_CLIENT_SECRET=your-google-client-secret
-   GOOGLE_REFRESH_TOKEN=your-google-refresh-token
-   SMITHERY_API_KEY=your-smithery-api-key
-   PORT=3001
-   ```
-2. Install backend dependencies:
-   ```sh
-   npm install express cors node-fetch supabase-js dotenv
-   ```
-3. Create a file `server.js` at the project root and copy the provided proxy code (see below).
-4. Start the backend server:
-   ```sh
-   node server.js
-   ```
-   The proxy will run at http://localhost:3001
-
-**Never expose your company API keys to the frontend or commit them to git.**
-
-## Deployment
-
-Deploy to Vercel, Netlify, or any static host. Set correct environment variables and OAuth redirect URIs for production.
-
-## License
-
-This project is licensed under the Elysminx License. All rights reserved.
-
-Copyright (c) 2025 Elysminx.
-
-Developed by Khant Zwe Naing.
+```env
+COMPANY_OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
+SUPABASE_URL=https://your-project.supabase.co
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+GOOGLE_REFRESH_TOKEN=your-google-refresh-token
+SMITHERY_API_KEY=your-smithery-api-key
+PORT=3001
