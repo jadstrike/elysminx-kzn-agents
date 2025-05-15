@@ -520,7 +520,10 @@ const Dashboard = () => {
             {/* Agent-Rag Card */}
             <div
               onClick={() =>
-                window.open("https://github.com/elysminx/agent-rag", "_blank")
+                window.open(
+                  "https://github.com/jadstrike/rag-agent.git",
+                  "_blank"
+                )
               }
               className="group cursor-pointer bg-gradient-to-br from-pink-700/60 to-red-700/60 hover:from-pink-600/80 hover:to-red-600/80 glass-morphism border border-white/10 rounded-2xl p-8 flex flex-col items-center justify-center transition-all duration-300 shadow-lg hover:scale-[1.03]"
             >
@@ -536,7 +539,7 @@ const Dashboard = () => {
                 onClick={(e) => {
                   e.stopPropagation();
                   window.open(
-                    "https://github.com/elysminx/agent-rag",
+                    "https://github.com/jadstrike/rag-agent.git",
                     "_blank"
                   );
                 }}
