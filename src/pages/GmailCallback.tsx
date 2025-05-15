@@ -1,3 +1,5 @@
+// NOTE: Gmail OAuth is not currently used. This component is commented out but left for future use if you want to support per-user Gmail access.
+/*
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -119,3 +121,4 @@ export default function GmailCallback() {
     </div>
   );
 }
+*/

@@ -1,3 +1,5 @@
+// NOTE: Gmail OAuth is not currently used. This component is commented out but left for future use if you want to support per-user Gmail access.
+/*
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -50,3 +52,4 @@ export default function GmailAuth() {
     </div>
   );
 }
+*/

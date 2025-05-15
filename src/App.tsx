@@ -10,7 +10,7 @@ import NotFound from "./pages/NotFound";
 import ContentAI from "./pages/ContentAI";
 import Settings from "./pages/Settings";
 import GmailAgent from "./pages/GmailSummary";
-import GmailCallback from "./pages/GmailCallback";
+// import GmailCallback from "./pages/GmailCallback";
 
 const queryClient = new QueryClient();
 
@@ -27,7 +27,7 @@ const App = () => (
             <Route path="/content-ai" element={<ContentAI />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/gmail-agent" element={<GmailAgent />} />
-            <Route path="/gmail-callback" element={<GmailCallback />} />
+            {/* <Route path="/gmail-callback" element={<GmailCallback />} /> */}
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

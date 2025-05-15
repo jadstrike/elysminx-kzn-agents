@@ -99,6 +99,36 @@ export interface Database {
         };
         Relationships: [];
       };
+      user_generated_content: {
+        Row: {
+          id: string;
+          user_id: string;
+          content: string;
+          parameters: Json;
+          created_at: string;
+          updated_at: string;
+          deleted_at: string | null;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          content: string;
+          parameters?: Json;
+          created_at?: string;
+          updated_at?: string;
+          deleted_at?: string | null;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          content?: string;
+          parameters?: Json;
+          created_at?: string;
+          updated_at?: string;
+          deleted_at?: string | null;
+        };
+        Relationships: [];
+      };
     };
     Views: {
       [_ in never]: never;

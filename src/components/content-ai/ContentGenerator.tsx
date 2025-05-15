@@ -22,6 +22,7 @@ import {
   createUserContent,
   createPartFromUri,
 } from "@google/genai";
+import { Database } from "@/types/supabase";
 
 export default function ContentGenerator() {
   const { user } = useAuth();
@@ -44,6 +45,10 @@ export default function ContentGenerator() {
   const [editedContent, setEditedContent] = useState<string>("");
   const [apiError, setApiError] = useState<string>("");
   const [isEditing, setIsEditing] = useState(false);
+  const [previousContents, setPreviousContents] = useState<
+    Database["public"]["Tables"]["user_generated_content"]["Row"][]
+  >([]);
+  const [loadingPrevious, setLoadingPrevious] = useState(false);
 
   // Add a custom event listener to refetch profile when API key is updated
   useEffect(() => {
@@ -162,6 +167,46 @@ export default function ContentGenerator() {
     }
   }
 
+  // Fetch previous generated content
+  const fetchPreviousContents = async () => {
+    if (!user) return;
+    setLoadingPrevious(true);
+    const { data, error } = await supabase
+      .from("user_generated_content")
+      .select("*")
+      .eq("user_id", user.id)
+      .is("deleted_at", null)
+      .order("created_at", { ascending: false });
+    if (!error && data) setPreviousContents(data);
+    setLoadingPrevious(false);
+  };
+
+  useEffect(() => {
+    if (user) fetchPreviousContents();
+  }, [user]);
+
+  // Store generated content after generation
+  const storeGeneratedContent = async (content: string) => {
+    if (!user) return;
+    const parameters = {
+      targetAge,
+      location,
+      marketingPurpose,
+      productDetails,
+      contentPurpose,
+      contentTone,
+      emotion,
+      model,
+    };
+    await supabase.from("user_generated_content").insert({
+      user_id: user.id,
+      content,
+      parameters,
+    });
+    fetchPreviousContents();
+  };
+
+  // Update handleGenerate to store content
   const handleGenerate = async () => {
     if (!user) {
       setApiError("You must be signed in to generate content.");
@@ -220,6 +265,9 @@ export default function ContentGenerator() {
       );
       setEditedContent(response.text || "");
       setApiError("");
+      if (response.text) {
+        await storeGeneratedContent(response.text);
+      }
     } catch (error: any) {
       // If error is an API error with a 'message' property, show only that message
       let displayMessage = "";
@@ -269,6 +317,22 @@ export default function ContentGenerator() {
     } finally {
       setIsGenerating(false);
     }
+  };
+
+  // Delete content (soft delete)
+  const handleDeleteContent = async (id: string) => {
+    await supabase
+      .from("user_generated_content")
+      .update({ deleted_at: new Date().toISOString() })
+      .eq("id", id);
+    setPreviousContents((prev) => prev.filter((c) => c.id !== id));
+    toast({ title: "Deleted", description: "Content deleted." });
+  };
+
+  // Copy content
+  const handleCopyContent = (content: string) => {
+    navigator.clipboard.writeText(content);
+    toast({ title: "Copied!", description: "Content copied to clipboard." });
   };
 
   return (
@@ -618,6 +682,51 @@ export default function ContentGenerator() {
             </div>
           )}
         </Card>
+      </div>
+
+      {/* Previous Content Section (moved below generator UI) */}
+      <div className="mt-10 mb-8">
+        <h2 className="text-2xl font-semibold mb-4 text-white">
+          Your Previous Content
+        </h2>
+        {loadingPrevious ? (
+          <div className="text-white/70">Loading...</div>
+        ) : previousContents.length === 0 ? (
+          <div className="text-white/50">No previous content found.</div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {previousContents.map((item) => (
+              <Card
+                key={item.id}
+                className="p-4 bg-black/30 border-white/10 flex flex-col gap-2"
+              >
+                <div className="whitespace-pre-line text-white font-mono text-base mb-2 max-h-40 overflow-auto">
+                  {item.content}
+                </div>
+                <div className="text-xs text-white/50 mb-2">
+                  <span className="font-semibold">Created:</span>{" "}
+                  {new Date(item.created_at).toLocaleString()}
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => handleCopyContent(item.content)}
+                  >
+                    Copy
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="destructive"
+                    onClick={() => handleDeleteContent(item.id)}
+                  >
+                    Delete
+                  </Button>
+                </div>
+              </Card>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
