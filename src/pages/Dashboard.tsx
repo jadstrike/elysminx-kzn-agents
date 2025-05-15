@@ -489,7 +489,10 @@ const Dashboard = () => {
             {/* Built your own MCP Card */}
             <div
               onClick={() =>
-                window.open("https://github.com/elysminx/mcp-starter", "_blank")
+                window.open(
+                  "https://github.com/jadstrike/local-mcp.git",
+                  "_blank"
+                )
               }
               className="group cursor-pointer bg-gradient-to-br from-yellow-700/60 to-orange-700/60 hover:from-yellow-600/80 hover:to-orange-600/80 glass-morphism border border-white/10 rounded-2xl p-8 flex flex-col items-center justify-center transition-all duration-300 shadow-lg hover:scale-[1.03]"
             >
@@ -507,7 +510,7 @@ const Dashboard = () => {
                 onClick={(e) => {
                   e.stopPropagation();
                   window.open(
-                    "https://github.com/elysminx/mcp-starter",
+                    "https://github.com/jadstrike/local-mcp.git",
                     "_blank"
                   );
                 }}
