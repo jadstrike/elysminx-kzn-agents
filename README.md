@@ -73,10 +73,14 @@ To securely use company API keys and track usage, run a backend proxy server:
 
 1. Create a `.env` file in your project root (never commit this file):
    ```env
-   COMPANY_GEMINI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxx
    COMPANY_OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxx
    SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
    SUPABASE_URL=https://your-project.supabase.co
+   GOOGLE_CLIENT_ID=your-google-client-id
+   GOOGLE_CLIENT_SECRET=your-google-client-secret
+   GOOGLE_REFRESH_TOKEN=your-google-refresh-token
+   SMITHERY_API_KEY=your-smithery-api-key
+   PORT=3001
    ```
 2. Install backend dependencies:
    ```sh
@@ -97,4 +101,8 @@ Deploy to Vercel, Netlify, or any static host. Set correct environment variables
 
 ## License
 
-MIT
+This project is licensed under the Elysminx License. All rights reserved.
+
+Copyright (c) 2025 Elysminx.
+
+Developed by Khant Zwe Naing.

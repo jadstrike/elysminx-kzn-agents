@@ -486,11 +486,68 @@ const Dashboard = () => {
               </Button>
             </div>
 
-            {/* LinkedIn Job Apply Card */}
+            {/* Built your own MCP Card */}
             <div
-              onClick={() => !setupIncomplete && navigate("/job-apply")}
-              className="group cursor-pointer bg-gradient-to-br from-blue-700/60 to-cyan-700/60 hover:from-blue-600/80 hover:to-cyan-600/80 glass-morphism border border-white/10 rounded-2xl p-8 flex flex-col items-center justify-center transition-all duration-300 shadow-lg hover:scale-[1.03]"
+              onClick={() =>
+                window.open("https://github.com/elysminx/mcp-starter", "_blank")
+              }
+              className="group cursor-pointer bg-gradient-to-br from-yellow-700/60 to-orange-700/60 hover:from-yellow-600/80 hover:to-orange-600/80 glass-morphism border border-white/10 rounded-2xl p-8 flex flex-col items-center justify-center transition-all duration-300 shadow-lg hover:scale-[1.03]"
             >
+              <span className="text-4xl mb-4">🛠️</span>
+              <h3 className="text-2xl font-bold mb-2 text-white">
+                Built your own MCP
+              </h3>
+              <p className="text-gray-300 text-center mb-4">
+                Start building your own Model Context Protocol (MCP) agent.
+                Open-source starter kit on GitHub.
+              </p>
+              <Button
+                variant="secondary"
+                className="mt-auto cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  window.open(
+                    "https://github.com/elysminx/mcp-starter",
+                    "_blank"
+                  );
+                }}
+                disabled={setupIncomplete}
+              >
+                View on GitHub
+              </Button>
+            </div>
+
+            {/* Agent-Rag Card */}
+            <div
+              onClick={() =>
+                window.open("https://github.com/elysminx/agent-rag", "_blank")
+              }
+              className="group cursor-pointer bg-gradient-to-br from-pink-700/60 to-red-700/60 hover:from-pink-600/80 hover:to-red-600/80 glass-morphism border border-white/10 rounded-2xl p-8 flex flex-col items-center justify-center transition-all duration-300 shadow-lg hover:scale-[1.03]"
+            >
+              <span className="text-4xl mb-4">📚</span>
+              <h3 className="text-2xl font-bold mb-2 text-white">Agent-Rag</h3>
+              <p className="text-gray-300 text-center mb-4">
+                Retrieval-Augmented Generation (RAG) agent template. Open-source
+                on GitHub.
+              </p>
+              <Button
+                variant="secondary"
+                className="mt-auto cursor-pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  window.open(
+                    "https://github.com/elysminx/agent-rag",
+                    "_blank"
+                  );
+                }}
+                disabled={setupIncomplete}
+              >
+                View on GitHub
+              </Button>
+            </div>
+
+            {/* LinkedIn Job Apply Card (Coming Soon) */}
+            <div className="group cursor-not-allowed bg-gradient-to-br from-blue-700/60 to-cyan-700/60 glass-morphism border border-white/10 rounded-2xl p-8 flex flex-col items-center justify-center transition-all duration-300 shadow-lg opacity-60">
               <span className="text-4xl mb-4">💼</span>
               <h3 className="text-2xl font-bold mb-2 text-white">
                 LinkedIn Job Apply
@@ -501,22 +558,15 @@ const Dashboard = () => {
               </p>
               <Button
                 variant="secondary"
-                className="mt-auto cursor-pointer"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  !setupIncomplete && navigate("/job-apply");
-                }}
-                disabled={setupIncomplete}
+                className="mt-auto cursor-not-allowed"
+                disabled
               >
-                Go to Job Apply
+                Coming Soon
               </Button>
             </div>
 
-            {/* Gmail Agent Card */}
-            <div
-              onClick={() => !setupIncomplete && navigate("/gmail-agent")}
-              className="group cursor-pointer bg-gradient-to-br from-green-700/60 to-teal-700/60 hover:from-green-600/80 hover:to-teal-600/80 glass-morphism border border-white/10 rounded-2xl p-8 flex flex-col items-center justify-center transition-all duration-300 shadow-lg hover:scale-[1.03]"
-            >
+            {/* Gmail Agent Card (Coming Soon) */}
+            <div className="group cursor-not-allowed bg-gradient-to-br from-green-700/60 to-teal-700/60 glass-morphism border border-white/10 rounded-2xl p-8 flex flex-col items-center justify-center transition-all duration-300 shadow-lg opacity-60">
               <span className="text-4xl mb-4">📧</span>
               <h3 className="text-2xl font-bold mb-2 text-white">
                 Gmail Agent
@@ -527,14 +577,10 @@ const Dashboard = () => {
               </p>
               <Button
                 variant="secondary"
-                className="mt-auto cursor-pointer"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  !setupIncomplete && navigate("/gmail-agent");
-                }}
-                disabled={setupIncomplete}
+                className="mt-auto cursor-not-allowed"
+                disabled
               >
-                Go to Gmail Agent
+                Coming Soon
               </Button>
             </div>
           </div>

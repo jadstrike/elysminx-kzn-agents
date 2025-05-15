@@ -52,7 +52,7 @@ app.post("/summarize-emails", async (req, res) => {
     );
     const transport = new StreamableHTTPClientTransport(serverUrl);
     const client = new Client({
-      name: "Finix AI client",
+      name: "Elysminx AI client",
       version: "1.0.0",
     });
     await client.connect(transport);
