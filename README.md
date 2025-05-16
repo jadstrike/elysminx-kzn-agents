@@ -73,7 +73,7 @@ To enable Google Sign-In, follow these steps:
    - Set the **Authorized redirect URIs** (e.g., `http://localhost:3001`, or your domain)
    - Copy the generated **Client ID** and **Client Secret**
 5. Go to the Supabase Project Dashboard:
-   - Navigate to **Authentication → Providers → Google**
+   - Navigate to **Authentication → Providers → Google Gmail**
    - Paste the **Client ID** and **Client Secret**
 6. Save the changes. Supabase auth is now linked with Google OAuth.
 7. Make sure the `.env` file includes the correct values:
