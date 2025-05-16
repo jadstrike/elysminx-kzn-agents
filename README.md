@@ -1,6 +1,6 @@
 # AI Agent Project – Main Dashboard Centre
 
-This repository showcases the work I submitted for an **AI Agent Project Competition**. Throughout the competition, I explored several key areas and built practical tools using modern AI agent frameworks like [Multi-Agent Control Plane (MCP)](https://smitheryai.notion.site/MCP-Quickstart-2772e76a7583499db3e3a77f6cc7fa14).
+This repository showcases the work I submitted for an **AI Agent Project Competition**. Throughout the competition, I explored several key areas and built practical tools using modern AI agent frameworks like [(MCP)](https://smitheryai.notion.site/MCP-Quickstart-2772e76a7583499db3e3a77f6cc7fa14).
 
 ---
 
